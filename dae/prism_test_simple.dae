@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>CGL PathTracer</author>
+    </contributor>
+    <created>2024-01-01T00:00:00Z</created>
+    <modified>2024-01-01T00:00:00Z</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  
+  <library_cameras>
+    <camera id="test_camera" name="TestCamera">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">49.13434</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+    </camera>
+  </library_cameras>
+  
+  <library_lights>
+    <light id="point_light" name="PointLight">
+      <technique_common>
+        <point>
+          <color>1 1 1</color>
+          <constant_attenuation>1</constant_attenuation>
+          <linear_attenuation>0</linear_attenuation>
+          <quadratic_attenuation>0</quadratic_attenuation>
+        </point>
+      </technique_common>
+    </light>
+  </library_lights>
+  
+  <library_effects>
+    <effect id="glass_effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0.1 0.1 0.1 1</color>
+            </ambient>
+            <diffuse>
+              <color>0.9 0.9 0.95 0.3</color>
+            </diffuse>
+            <specular>
+              <color>1 1 1 1</color>
+            </specular>
+            <shininess>
+              <float>100</float>
+            </shininess>
+            <index_of_refraction>
+              <float>1.5</float>
+            </index_of_refraction>
+            <transparency>
+              <float>0.8</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  
+  <library_materials>
+    <material id="glass_material" name="glass_material">
+      <instance_effect url="#glass_effect"/>
+    </material>
+  </library_materials>
+  
+  <library_visual_scenes>
+    <visual_scene id="test_scene" name="test_scene">
+      <node id="camera_node" name="Camera">
+        <translate>0 0 3</translate>
+        <rotate sid="rotateX">1 0 0 0</rotate>
+        <rotate sid="rotateY">0 1 0 0</rotate>
+        <rotate sid="rotateZ">0 0 1 0</rotate>
+        <instance_camera url="#test_camera"/>
+      </node>
+      <node id="light_node" name="Light">
+        <translate>2 2 2</translate>
+        <rotate sid="rotateX">1 0 0 -45</rotate>
+        <rotate sid="rotateY">0 1 0 45</rotate>
+        <rotate sid="rotateZ">0 0 1 0</rotate>
+        <instance_light url="#point_light"/>
+      </node>
+      <node name="sphere_node">
+        <translate>0 0 0</translate>
+        <scale>1 1 1</scale>
+        <instance_geometry url="#sphere_geometry">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="glass_material" target="#glass_material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  
+  <library_geometries>
+    <geometry id="sphere_geometry" name="sphere">
+      <mesh>
+        <source id="sphere_positions">
+          <float_array id="sphere_pos_array" count="3">
+            0 0 0
+          </float_array>
+          <technique_common>
+            <accessor source="#sphere_pos_array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        
+        <vertices id="sphere_vertices">
+          <input semantic="VERTEX" source="#sphere_positions"/>
+        </vertices>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  
+  <scene>
+    <instance_visual_scene url="#test_scene"/>
+  </scene>
+</COLLADA>

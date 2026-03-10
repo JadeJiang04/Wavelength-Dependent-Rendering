@@ -1,0 +1,2 @@
+D:\CODECO~1\mingw64\bin\ar.exe qc libpt31.a CMakeFiles/pt31.dir/src/scene/sphere.cpp.obj CMakeFiles/pt31.dir/src/scene/triangle.cpp.obj CMakeFiles/pt31.dir/src/scene/light.cpp.obj CMakeFiles/pt31.dir/src/scene/bvh.cpp.obj CMakeFiles/pt31.dir/src/scene/bbox.cpp.obj CMakeFiles/pt31.dir/src/pathtracer/camera.cpp.obj CMakeFiles/pt31.dir/src/pathtracer/bsdf.cpp.obj CMakeFiles/pt31.dir/src/pathtracer/pathtracer.cpp.obj CMakeFiles/pt31.dir/src/util/win32/getopt.c.obj
+D:\CODECO~1\mingw64\bin\ranlib.exe libpt31.a

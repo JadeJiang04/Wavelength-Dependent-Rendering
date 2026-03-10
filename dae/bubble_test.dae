@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>CGL PathTracer</author>
+    </contributor>
+    <created>2024-01-01T00:00:00Z</created>
+    <modified>2024-01-01T00:00:00Z</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  
+  <library_cameras>
+    <camera id="bubble_camera" name="BubbleCamera">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">49.13434</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+    </camera>
+  </library_cameras>
+  
+  <library_lights>
+    <light id="area_light" name="AreaLight">
+      <technique_common>
+        <point>
+          <color>1 1 1</color>
+          <constant_attenuation>1</constant_attenuation>
+          <linear_attenuation>0</linear_attenuation>
+          <quadratic_attenuation>0.001</quadratic_attenuation>
+        </point>
+      </technique_common>
+    </light>
+  </library_lights>
+  
+  <library_effects>
+    <effect id="bubble_effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0.1 0.1 0.15 1</color>
+            </ambient>
+            <diffuse>
+              <color>0.8 0.8 0.9 0.3</color>
+            </diffuse>
+            <specular>
+              <color>1 1 1 1</color>
+            </specular>
+            <shininess>
+              <float>200</float>
+            </shininess>
+            <index_of_refraction>
+              <float>1.33</float>
+            </index_of_refraction>
+            <transparency>
+              <float>0.9</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    
+    <effect id="reflective_surface">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0.1 0.1 0.1 1</color>
+            </ambient>
+            <diffuse>
+              <color>0.7 0.7 0.8 1</color>
+            </diffuse>
+            <specular>
+              <color>0.9 0.9 0.9 1</color>
+            </specular>
+            <shininess>
+              <float>100</float>
+            </shininess>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  
+  <library_materials>
+    <material id="bubble_material" name="bubble_material">
+      <instance_effect url="#bubble_effect"/>
+    </material>
+    <material id="reflective_material" name="reflective_material">
+      <instance_effect url="#reflective_surface"/>
+    </material>
+  </library_materials>
+  
+  <library_geometries>
+    <geometry id="sphere_geometry" name="sphere">
+      <mesh>
+        <source id="sphere_positions">
+          <float_array id="sphere_pos_array" count="3">
+            0 0 0
+          </float_array>
+          <technique_common>
+            <accessor source="#sphere_pos_array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        
+        <vertices id="sphere_vertices">
+          <input semantic="VERTEX" source="#sphere_positions"/>
+        </vertices>
+      </mesh>
+    </geometry>
+    
+    <geometry id="plane_geometry" name="plane">
+      <mesh>
+        <source id="plane_positions">
+          <float_array id="plane_pos_array" count="12">
+            -2 -2 -1
+            2 -2 -1
+            2 2 -1
+            -2 2 -1
+          </float_array>
+          <technique_common>
+            <accessor source="#plane_pos_array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        
+        <vertices id="plane_vertices">
+          <input semantic="VERTEX" source="#plane_positions"/>
+        </vertices>
+        
+        <triangles material="reflective_material" count="2">
+          <input semantic="VERTEX" source="#plane_vertices" offset="0"/>
+          <p>
+            0 1 2
+            0 2 3
+          </p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  
+  <library_visual_scenes>
+    <visual_scene id="bubble_scene" name="bubble_scene">
+      <node id="camera_node" name="Camera">
+        <translate>0 0 3</translate>
+        <rotate sid="rotateX">1 0 0 0</rotate>
+        <rotate sid="rotateY">0 1 0 0</rotate>
+        <rotate sid="rotateZ">0 0 1 0</rotate>
+        <instance_camera url="#bubble_camera"/>
+      </node>
+      <node id="light_node" name="Light">
+        <translate>2 2 2</translate>
+        <rotate sid="rotateX">1 0 0 -45</rotate>
+        <rotate sid="rotateY">0 1 0 45</rotate>
+        <rotate sid="rotateZ">0 0 1 0</rotate>
+        <instance_light url="#area_light"/>
+      </node>
+      <node name="bubble_node">
+        <translate>0 0 0</translate>
+        <scale>0.8 0.8 0.8</scale>
+        <instance_geometry url="#sphere_geometry">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="bubble_material" target="#bubble_material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      
+      <node name="plane_node">
+        <translate>0 0 -1.5</translate>
+        <scale>3 3 1</scale>
+        <instance_geometry url="#plane_geometry">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="reflective_material" target="#reflective_material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  
+  <scene>
+    <instance_visual_scene url="#bubble_scene"/>
+  </scene>
+</COLLADA>

@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\simple_tester.dir/objects.a
+D:\CODECO~1\mingw64\bin\ar.exe qc CMakeFiles\simple_tester.dir/objects.a @CMakeFiles\simple_tester.dir\objects1.rsp
+D:\CODECO~1\mingw64\bin\C__~1.EXE  -std=c++11 -m64 -fPIC -O3  -mavx2  -Wl,--whole-archive CMakeFiles\simple_tester.dir/objects.a -Wl,--no-whole-archive -o simple_tester.exe -Wl,--out-implib,libsimple_tester.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\simple_tester.dir\linkLibs.rsp

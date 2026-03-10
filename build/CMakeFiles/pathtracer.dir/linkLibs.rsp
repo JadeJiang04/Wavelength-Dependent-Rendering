@@ -1,0 +1,1 @@
+ CGL/libCGL.a -lopengl32 -lglu32 libpt31.a CGL/libCGL.a "C:/vcpkg/installed/x64-windows/lib/freetype.lib" CGL/deps/glew/libglew.a CGL/deps/glfw/src/libglfw3.a -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
